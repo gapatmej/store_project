@@ -1,0 +1,49 @@
+{
+  "name": "OrderItem",
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "pricePerItem",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "totalPrice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "order",
+      "otherEntityRelationshipName": "orderItems",
+      "relationshipName": "order"
+    }
+  ],
+  "entityTableName": "order_item",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["store", "sales"],
+  "microserviceName": "sales",
+  "clientRootFolder": "sales",
+  "databaseType": "sql",
+  "changelogDate": "20231006213533"
+}

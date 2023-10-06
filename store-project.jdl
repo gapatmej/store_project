@@ -1,0 +1,139 @@
+application {
+  config {
+    baseName store
+    applicationType gateway
+    packageName com.unir.store
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    databaseType sql
+    devDatabaseType postgresql
+    prodDatabaseType postgresql
+    cacheProvider no
+    buildTool gradle
+    clientFramework react
+    languages [es]
+    nativeLanguage es
+  }
+  entities *
+}
+
+application {
+  config {
+    baseName inventory
+    applicationType microservice
+    packageName com.unir.inventory
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    databaseType sql
+    devDatabaseType postgresql
+    prodDatabaseType postgresql
+    cacheProvider hazelcast
+    buildTool gradle
+    serverPort 8081
+    skipUserManagement true
+    languages [es]
+    nativeLanguage es
+  }
+  entities Product, Category, ProductCategory
+}
+
+application {
+  config {
+    baseName sales
+    applicationType microservice
+    packageName com.unir.sales
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    databaseType sql
+    devDatabaseType postgresql
+    prodDatabaseType postgresql
+    buildTool gradle
+    serverPort 8082
+    skipUserManagement true
+    languages [es]
+    nativeLanguage es
+  }
+  entities Order, OrderItem
+}
+
+/* Entities for Store Gateway */
+
+entity Customer {
+    firstName String required
+    lastName String required
+    gender Gender required
+    email String required
+    phone String required
+    addressLine1 String required
+    city String required
+    country String required
+}
+
+enum Gender {
+    MALE, FEMALE, OTHER
+}
+
+relationship OneToOne {
+    Customer{user(login) required} to User
+}
+
+service Customer with serviceClass
+paginate Customer with pagination
+
+/** Entities for inventory microservice */
+entity Product {
+    name String required
+    description String
+    stock Integer required
+    price BigDecimal required min(0)
+    image ImageBlob
+}
+
+entity Category {
+    name String required
+    description String
+}
+
+entity ProductCategory {
+}
+
+relationship ManyToOne {
+	  ProductCategory{product} to Product,
+    ProductCategory{category} to Category
+}
+
+service Product, Category, ProductCategory with serviceClass
+paginate Product, Category with pagination
+microservice Product, Category, ProductCategory with inventory
+
+/* Entities for Invoice microservice */
+entity Order {
+    customerName String required
+    customerId Long required
+    placedDate Instant required
+    status OrderStatus required
+    code String required
+}
+
+enum OrderStatus {
+    COMPLETED, CANCELLED
+}
+
+entity OrderItem {
+    description String required
+    quantity Integer required min(0)
+    pricePerItem Integer required min(0)
+    totalPrice BigDecimal required min(0)
+}
+
+relationship OneToMany {
+    Order{orderItems} to OrderItem{order},
+}
+
+service Order, OrderItem with serviceClass
+paginate Order with pagination
+microservice Order, OrderItem with sales
+
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct

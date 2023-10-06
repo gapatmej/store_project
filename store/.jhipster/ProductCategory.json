@@ -1,0 +1,31 @@
+{
+  "name": "ProductCategory",
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "productCategory",
+      "relationshipName": "product"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "category",
+      "otherEntityRelationshipName": "productCategory",
+      "relationshipName": "category"
+    }
+  ],
+  "entityTableName": "product_category",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["store", "inventory"],
+  "microserviceName": "inventory",
+  "clientRootFolder": "inventory",
+  "databaseType": "sql",
+  "changelogDate": "20231006213933"
+}

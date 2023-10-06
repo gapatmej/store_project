@@ -1,0 +1,9 @@
+{
+  "storeApp": {
+    "OrderStatus": {
+      "null": "",
+      "COMPLETED": "COMPLETED",
+      "CANCELLED": "CANCELLED"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Category",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "category",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["store", "inventory"],
+  "microserviceName": "inventory",
+  "clientRootFolder": "inventory",
+  "databaseType": "sql",
+  "changelogDate": "20231006214033"
+}

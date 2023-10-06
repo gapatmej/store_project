@@ -1,0 +1,52 @@
+{
+  "name": "Order",
+  "fields": [
+    {
+      "fieldName": "customerName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "customerId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "placedDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "OrderStatus",
+      "fieldValues": "COMPLETED,CANCELLED",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "orderItems"
+    }
+  ],
+  "entityTableName": "jhi_order",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["store", "sales"],
+  "microserviceName": "sales",
+  "clientRootFolder": "sales",
+  "databaseType": "sql",
+  "changelogDate": "20231006213633"
+}
