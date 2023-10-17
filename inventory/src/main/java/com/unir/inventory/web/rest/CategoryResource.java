@@ -152,6 +152,13 @@ public class CategoryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/public/categories")
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+        log.debug("REST request to get all Categories");
+        List<CategoryDTO> result = categoryService.findAll();
+        return ResponseEntity.ok().body(result);
+    }
+
     /**
      * {@code GET  /categories/:id} : get the "id" category.
      *

@@ -7,6 +7,7 @@ import { ICategory, defaultValue } from 'app/shared/model/inventory/category.mod
 
 export const ACTION_TYPES = {
   FETCH_CATEGORY_LIST: 'category/FETCH_CATEGORY_LIST',
+  FETCH_CATEGORY_PUBLIC_LIST: 'category/FETCH_CATEGORY_PUBLIC_LIST',
   FETCH_CATEGORY: 'category/FETCH_CATEGORY',
   CREATE_CATEGORY: 'category/CREATE_CATEGORY',
   UPDATE_CATEGORY: 'category/UPDATE_CATEGORY',
@@ -32,6 +33,7 @@ export type CategoryState = Readonly<typeof initialState>;
 export default (state: CategoryState = initialState, action): CategoryState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY):
       return {
         ...state,
@@ -50,6 +52,7 @@ export default (state: CategoryState = initialState, action): CategoryState => {
         updating: true,
       };
     case FAILURE(ACTION_TYPES.FETCH_CATEGORY_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST):
     case FAILURE(ACTION_TYPES.FETCH_CATEGORY):
     case FAILURE(ACTION_TYPES.CREATE_CATEGORY):
     case FAILURE(ACTION_TYPES.UPDATE_CATEGORY):
@@ -68,6 +71,12 @@ export default (state: CategoryState = initialState, action): CategoryState => {
         loading: false,
         entities: action.payload.data,
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST):
+      return {
+        ...state,
+        loading: false,
+        entities: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_CATEGORY):
       return {
@@ -101,6 +110,7 @@ export default (state: CategoryState = initialState, action): CategoryState => {
 };
 
 const apiUrl = 'services/inventory/api/categories';
+const apiPublicUrl = 'services/inventory/api/public/categories';
 
 // Actions
 
@@ -109,6 +119,14 @@ export const getEntities: ICrudGetAllAction<ICategory> = (page, size, sort) => {
   return {
     type: ACTION_TYPES.FETCH_CATEGORY_LIST,
     payload: axios.get<ICategory>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getPublicEntities: ICrudGetAllAction<ICategory> = () => {
+  const requestUrl = apiPublicUrl;
+  return {
+    type: ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST,
+    payload: axios.get<ICategory>(requestUrl),
   };
 };
 

@@ -4,7 +4,11 @@ import com.unir.inventory.domain.Category;
 import com.unir.inventory.repository.CategoryRepository;
 import com.unir.inventory.service.dto.CategoryDTO;
 import com.unir.inventory.service.mapper.CategoryMapper;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -74,6 +78,12 @@ public class CategoryService {
     public Page<CategoryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Categories");
         return categoryRepository.findAll(pageable).map(categoryMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryDTO> findAll() {
+        log.debug("Request to get all Categories");
+        return categoryRepository.findAll().stream().map(categoryMapper::toDto).collect(Collectors.toList());
     }
 
     /**
