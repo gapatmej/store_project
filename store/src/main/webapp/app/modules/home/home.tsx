@@ -1,11 +1,9 @@
 import './home.scss';
-
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 import LeftHome from 'app/modules/home/left-home/left-home';
+import CenterHome from './center-home/center-home';
 
 export type IHomeProp = StateProps;
 
@@ -15,9 +13,11 @@ export const Home = (props: IHomeProp) => {
   return (
     <Row>
       <Col md="3" className="pad">
-        <LeftHome>a</LeftHome>
+        <LeftHome />
       </Col>
-      <Col md="9"></Col>
+      <Col md="9">
+        <CenterHome />
+      </Col>
     </Row>
   );
 };

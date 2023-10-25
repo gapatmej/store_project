@@ -7,6 +7,7 @@ import { IProduct, defaultValue } from 'app/shared/model/inventory/product.model
 
 export const ACTION_TYPES = {
   FETCH_PRODUCT_LIST: 'product/FETCH_PRODUCT_LIST',
+  FETCH_PRODUCT_PUBLIC_LIST: 'product/FETCH_PRODUCT_PUBLIC_LIST',
   FETCH_PRODUCT: 'product/FETCH_PRODUCT',
   CREATE_PRODUCT: 'product/CREATE_PRODUCT',
   UPDATE_PRODUCT: 'product/UPDATE_PRODUCT',
@@ -33,6 +34,7 @@ export type ProductState = Readonly<typeof initialState>;
 export default (state: ProductState = initialState, action): ProductState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_PRODUCT_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_PRODUCT_PUBLIC_LIST):
     case REQUEST(ACTION_TYPES.FETCH_PRODUCT):
       return {
         ...state,
@@ -51,6 +53,7 @@ export default (state: ProductState = initialState, action): ProductState => {
         updating: true,
       };
     case FAILURE(ACTION_TYPES.FETCH_PRODUCT_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_PRODUCT_PUBLIC_LIST):
     case FAILURE(ACTION_TYPES.FETCH_PRODUCT):
     case FAILURE(ACTION_TYPES.CREATE_PRODUCT):
     case FAILURE(ACTION_TYPES.UPDATE_PRODUCT):
@@ -64,6 +67,7 @@ export default (state: ProductState = initialState, action): ProductState => {
         errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.FETCH_PRODUCT_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_PRODUCT_PUBLIC_LIST):
       return {
         ...state,
         loading: false,
@@ -113,6 +117,7 @@ export default (state: ProductState = initialState, action): ProductState => {
 };
 
 const apiUrl = 'services/inventory/api/products';
+const apiPublicUrl = 'services/inventory/api/public/products';
 
 // Actions
 
@@ -121,6 +126,14 @@ export const getEntities: ICrudGetAllAction<IProduct> = (page, size, sort) => {
   return {
     type: ACTION_TYPES.FETCH_PRODUCT_LIST,
     payload: axios.get<IProduct>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getPublicEntities = (categories, search, page, size, sort) => {
+  const requestUrl = `${apiPublicUrl}?categories=${categories}&name=${search}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_PRODUCT_PUBLIC_LIST,
+    payload: axios.get<IProduct>(requestUrl),
   };
 };
 

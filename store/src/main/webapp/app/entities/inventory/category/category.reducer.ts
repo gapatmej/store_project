@@ -14,6 +14,7 @@ export const ACTION_TYPES = {
   PARTIAL_UPDATE_CATEGORY: 'category/PARTIAL_UPDATE_CATEGORY',
   DELETE_CATEGORY: 'category/DELETE_CATEGORY',
   RESET: 'category/RESET',
+  MANAGE_CATEGORIES_SELECTED: 'category/MANAGE_CATEGORIES_SELECTED',
 };
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  categoriesSelected: [],
 };
 
 export type CategoryState = Readonly<typeof initialState>;
@@ -35,6 +37,7 @@ export default (state: CategoryState = initialState, action): CategoryState => {
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY):
+      console.log('bbbbbbbbbbbbbbbb');
       return {
         ...state,
         errorMessage: null,
@@ -77,6 +80,7 @@ export default (state: CategoryState = initialState, action): CategoryState => {
         ...state,
         loading: false,
         entities: action.payload.data,
+        categoriesSelected: action.payload.data.map(i => i['id']),
       };
     case SUCCESS(ACTION_TYPES.FETCH_CATEGORY):
       return {
@@ -103,6 +107,11 @@ export default (state: CategoryState = initialState, action): CategoryState => {
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
+      };
+    case ACTION_TYPES.MANAGE_CATEGORIES_SELECTED:
+      return {
+        ...state,
+        categoriesSelected: action.categoriesSelected,
       };
     default:
       return state;
@@ -145,6 +154,22 @@ export const createEntity: ICrudPutAction<ICategory> = entity => async dispatch 
   });
   dispatch(getEntities());
   return result;
+};
+
+export const manageCategoriesSelected = (id, checked) => (dispatch, getState) => {
+  const { category } = getState();
+  let categoriesSelected = [...category.categoriesSelected];
+
+  if (checked) {
+    categoriesSelected.push(id);
+  } else {
+    categoriesSelected = categoriesSelected.filter(c => c !== id);
+  }
+
+  dispatch({
+    type: ACTION_TYPES.MANAGE_CATEGORIES_SELECTED,
+    categoriesSelected,
+  });
 };
 
 export const updateEntity: ICrudPutAction<ICategory> = entity => async dispatch => {

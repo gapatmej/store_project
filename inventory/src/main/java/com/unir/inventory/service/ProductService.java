@@ -4,7 +4,11 @@ import com.unir.inventory.domain.Product;
 import com.unir.inventory.repository.ProductRepository;
 import com.unir.inventory.service.dto.ProductDTO;
 import com.unir.inventory.service.mapper.ProductMapper;
+
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -74,6 +78,11 @@ public class ProductService {
     public Page<ProductDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Products");
         return productRepository.findAll(pageable).map(productMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> searchByCategoryAndName(Set<Long> categories, String name, Pageable pageable) {
+        return productRepository.searchByCategoryAndName(name,categories,pageable).map(productMapper::toDto);
     }
 
     /**
