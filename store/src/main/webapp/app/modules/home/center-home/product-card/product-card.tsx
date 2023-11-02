@@ -7,11 +7,16 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductModal from '../product-modal/product-modal';
+import { addProduct } from 'app/entities/inventory/product/product.reducer';
 
 export const ProductCard = props => {
   const { product } = props;
 
   const [modalShow, setModalShow] = React.useState(false);
+
+  const handleAddProduct= ()=>{
+    props.addProduct(product);
+  }
 
   return (
     <>
@@ -31,7 +36,7 @@ export const ProductCard = props => {
                 <Card.Link onClick={() => setModalShow(true)}>Ver detalles</Card.Link>
               </Col>
               <Col>
-                <Button variant="primary">Agregar</Button>
+                <Button onClick={() => handleAddProduct()} variant="primary">Agregar</Button>
               </Col>
             </Row>
           </Card.Body>
@@ -41,4 +46,11 @@ export const ProductCard = props => {
   );
 };
 
-export default connect()(ProductCard);
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = {
+  addProduct,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

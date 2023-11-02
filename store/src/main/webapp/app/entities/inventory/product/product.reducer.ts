@@ -15,6 +15,7 @@ export const ACTION_TYPES = {
   DELETE_PRODUCT: 'product/DELETE_PRODUCT',
   SET_BLOB: 'product/SET_BLOB',
   RESET: 'product/RESET',
+  ADD_PRODUCT_CART: 'product/ADD_PRODUCT_CART'
 };
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  productsOnCart: [],
 };
 
 export type ProductState = Readonly<typeof initialState>;
@@ -111,6 +113,24 @@ export default (state: ProductState = initialState, action): ProductState => {
       return {
         ...initialState,
       };
+    case ACTION_TYPES.ADD_PRODUCT_CART: {
+      const { product } = action.payload;
+      const { productsOnCart } = state;
+
+      const foundElement = productsOnCart.find(p => p.id === product.id);
+
+      if (foundElement) {
+        foundElement.quantity = foundElement.quantity + 1;
+      } else {
+        product["quantity"] = 1;
+        productsOnCart.push(product);
+      }
+
+      return {
+        ...state,
+        productsOnCart: [...productsOnCart],
+      };
+    }
     default:
       return state;
   }
@@ -191,4 +211,11 @@ export const setBlob = (name, data, contentType?) => ({
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
+});
+
+export const addProduct = (product) => ({
+  type: ACTION_TYPES.ADD_PRODUCT_CART,
+  payload: {
+    product,
+  },
 });

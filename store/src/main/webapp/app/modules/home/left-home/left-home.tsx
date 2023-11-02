@@ -16,8 +16,8 @@ export const LeftHome = (props: ILeftHomeProps) => {
       <h2>Categorías</h2>
       {props.categoryList.map(c => {
         return (
-          <label key={c.id} className="form-control">
-            <input type="checkbox" name="checkbox" onChange={e => props.manageCategoriesSelected(c.id, e.target.checked)} />
+          <label key={c.id} className="item">
+            <input type="checkbox" className='op-checkbox' name="checkbox" onChange={e => props.manageCategoriesSelected(c.id, e.target.checked)} />
             {c.name}
           </label>
         );

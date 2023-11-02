@@ -1,5 +1,4 @@
 import './header.scss';
-
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
@@ -8,6 +7,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+import ShoopingCart from './shopping-cart/shopping-cart';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -55,6 +55,7 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
+            <ShoopingCart></ShoopingCart>
           </Nav>
         </Collapse>
       </Navbar>

@@ -37,7 +37,6 @@ export default (state: CategoryState = initialState, action): CategoryState => {
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY_PUBLIC_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CATEGORY):
-      console.log('bbbbbbbbbbbbbbbb');
       return {
         ...state,
         errorMessage: null,
