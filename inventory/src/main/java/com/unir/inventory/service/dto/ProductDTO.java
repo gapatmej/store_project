@@ -3,6 +3,7 @@ package com.unir.inventory.service.dto;
 import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -31,6 +32,8 @@ public class ProductDTO implements Serializable {
     private byte[] image;
 
     private String imageContentType;
+
+    private List<CategoryDTO> categories;
 
     public Long getId() {
         return id;
@@ -86,6 +89,14 @@ public class ProductDTO implements Serializable {
 
     public void setImageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryDTO> categories) {
+        this.categories = categories;
     }
 
     @Override

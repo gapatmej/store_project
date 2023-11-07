@@ -101,4 +101,16 @@ public class ProductCategoryService {
         log.debug("Request to delete ProductCategory : {}", id);
         productCategoryRepository.deleteById(id);
     }
+
+    public void deleteByProductId(Long productId) {
+        productCategoryRepository.deleteByProductId(productId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductCategoryDTO> findByProductId(Long id) {
+        log.debug("Request to get ProductCategory : {}", id);
+        return productCategoryRepository.findByProductId(id).stream()
+            .map(productCategoryMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
 }

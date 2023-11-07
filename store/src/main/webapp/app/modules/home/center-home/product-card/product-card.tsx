@@ -23,7 +23,7 @@ export const ProductCard = props => {
       <ProductModal show={modalShow} onHide={() => setModalShow(false)} product={product} />
       <Col sm={4}>
         <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+          <Card.Img variant="top" src={`data:${product.imageContentType};base64,${product.image}`} />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
           </Card.Body>

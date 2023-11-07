@@ -1,3 +1,5 @@
+import { ICategory } from "./category.model";
+
 export interface IProduct {
   id?: number;
   name?: string;
@@ -6,6 +8,7 @@ export interface IProduct {
   price?: number;
   imageContentType?: string | null;
   image?: string | null;
+  categories?: ICategory[]
 }
 
 export const defaultValue: Readonly<IProduct> = {};

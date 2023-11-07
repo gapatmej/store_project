@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { openFile, byteSize, Translate, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Button, Row, Table } from 'reactstrap';
+import { Translate, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './product.reducer';
-import { IProduct } from 'app/shared/model/inventory/product.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
@@ -90,9 +88,6 @@ export const Product = (props: IProductProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="storeApp.inventoryProduct.id">ID</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th className="hand" onClick={sort('name')}>
                   <Translate contentKey="storeApp.inventoryProduct.name">Name</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -105,40 +100,16 @@ export const Product = (props: IProductProps) => {
                 <th className="hand" onClick={sort('price')}>
                   <Translate contentKey="storeApp.inventoryProduct.price">Price</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('image')}>
-                  <Translate contentKey="storeApp.inventoryProduct.image">Image</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
             <tbody>
               {productList.map((product, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`${match.url}/${product.id}`} color="link" size="sm">
-                      {product.id}
-                    </Button>
-                  </td>
-                  <td>{product.id}</td>
                   <td>{product.name}</td>
                   <td>{product.description}</td>
                   <td>{product.stock}</td>
                   <td>{product.price}</td>
-                  <td>
-                    {product.image ? (
-                      <div>
-                        {product.imageContentType ? (
-                          <a onClick={openFile(product.imageContentType, product.image)}>
-                            <img src={`data:${product.imageContentType};base64,${product.image}`} style={{ maxHeight: '30px' }} />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {product.imageContentType}, {byteSize(product.image)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${product.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -10,7 +10,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
     @Named("id")
-    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     ProductDTO toDtoId(Product product);
 }

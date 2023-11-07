@@ -19,7 +19,7 @@ export const ProductModal = props => {
         <Container>
           <Row>
             <Col md={5}>
-              <Card.Img variant="top" src="holder.js/100px180" />
+              <Card.Img variant="top" src={`data:${product.imageContentType};base64,${product.image}`}  />
             </Col>
             <Col md={7}>
               <Row>

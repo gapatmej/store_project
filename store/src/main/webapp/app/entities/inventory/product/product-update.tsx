@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { AvForm, AvGroup, AvInput, AvField, AvCheckboxGroup, AvCheckbox } from 'availity-reactstrap-validation';
 import { setFileData, openFile, byteSize, Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './product.reducer';
-import { IProduct } from 'app/shared/model/inventory/product.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
+import { getEntities as getCategories } from '../category/category.reducer';
+import { Accordion, Card } from 'react-bootstrap';
+import { ICategory } from 'app/shared/model/inventory/category.model';
 
-export interface IProductUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IProductUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const ProductUpdate = (props: IProductUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
@@ -26,6 +26,7 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
   };
 
   useEffect(() => {
+    props.getCategories()
     if (isNew) {
       props.reset();
     } else {
@@ -54,6 +55,13 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
         ...values,
       };
 
+      const categories: ICategory[] = [];
+      values.categories.forEach(i => {
+        categories.push({ id: i })
+      });
+
+      entity.categories = categories;
+
       if (isNew) {
         props.createEntity(entity);
       } else {
@@ -61,6 +69,19 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
       }
     }
   };
+
+  const transformProductEntity = () => {
+    const response: any = { ...productEntity };
+    if (response.categories) {
+      const categories = [];
+      response.categories.forEach(obj => {
+        categories.push(obj.id);
+      }
+      )
+      response.categories = categories;
+    }
+    return response;
+  }
 
   return (
     <div>
@@ -76,7 +97,7 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : productEntity} onSubmit={saveEntity}>
+            <AvForm model={isNew ? {} : transformProductEntity()} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
                   <Label for="product-id">
@@ -103,7 +124,7 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
                 <Label id="descriptionLabel" for="product-description">
                   <Translate contentKey="storeApp.inventoryProduct.description">Description</Translate>
                 </Label>
-                <AvField id="product-description" data-cy="description" type="text" name="description" />
+                <AvField id="product-description" data-cy="description" type="textarea" name="description" />
               </AvGroup>
               <AvGroup>
                 <Label id="stockLabel" for="product-stock">
@@ -169,6 +190,24 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
                   <AvInput type="hidden" name="image" value={image} />
                 </AvGroup>
               </AvGroup>
+              <Accordion defaultActiveKey="0">
+                <Card>
+                  <Card.Header>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      Categorías
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                      <AvCheckboxGroup name="categories" >
+                        {props.categories.map(c => (
+                          <AvCheckbox key={c.id} label={c.name} value={c.id} />
+                        ))}
+                      </AvCheckboxGroup>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
               <Button tag={Link} id="cancel-save" to="/product" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -186,7 +225,9 @@ export const ProductUpdate = (props: IProductUpdateProps) => {
           )}
         </Col>
       </Row>
-    </div>
+
+
+    </div >
   );
 };
 
@@ -195,6 +236,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.product.loading,
   updating: storeState.product.updating,
   updateSuccess: storeState.product.updateSuccess,
+  categories: storeState.category.entities,
 });
 
 const mapDispatchToProps = {
@@ -203,6 +245,7 @@ const mapDispatchToProps = {
   setBlob,
   createEntity,
   reset,
+  getCategories
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

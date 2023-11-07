@@ -11,7 +11,6 @@ public class CategoryDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String name;
 
     private String description;

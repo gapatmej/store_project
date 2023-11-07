@@ -1,13 +1,17 @@
 package com.unir.inventory.service;
 
 import com.unir.inventory.domain.Product;
+import com.unir.inventory.domain.ProductCategory;
 import com.unir.inventory.repository.ProductRepository;
+import com.unir.inventory.service.dto.CategoryDTO;
+import com.unir.inventory.service.dto.ProductCategoryDTO;
 import com.unir.inventory.service.dto.ProductDTO;
 import com.unir.inventory.service.mapper.ProductMapper;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +32,12 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     private final ProductMapper productMapper;
+    private final ProductCategoryService productCategoryService;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, ProductCategoryService productCategoryService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.productCategoryService = productCategoryService;
     }
 
     /**
@@ -44,6 +50,15 @@ public class ProductService {
         log.debug("Request to save Product : {}", productDTO);
         Product product = productMapper.toEntity(productDTO);
         product = productRepository.save(product);
+
+        productCategoryService.deleteByProductId(product.getId());
+        for (CategoryDTO c:productDTO.getCategories()) {
+            ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO();
+            productCategoryDTO.setProduct(productMapper.toDto(product));
+            productCategoryDTO.setCategory(c);
+            productCategoryService.save(productCategoryDTO);
+        }
+
         return productMapper.toDto(product);
     }
 
@@ -60,11 +75,21 @@ public class ProductService {
             .findById(productDTO.getId())
             .map(
                 existingProduct -> {
+                    productCategoryService.deleteByProductId(existingProduct.getId());
                     productMapper.partialUpdate(existingProduct, productDTO);
                     return existingProduct;
                 }
             )
             .map(productRepository::save)
+            .map(i->{
+                for (CategoryDTO c:productDTO.getCategories()) {
+                    ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO();
+                    productCategoryDTO.setProduct(productMapper.toDto(i));
+                    productCategoryDTO.setCategory(c);
+                    productCategoryService.save(productCategoryDTO);
+                }
+                return i;
+            })
             .map(productMapper::toDto);
     }
 
@@ -82,7 +107,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> searchByCategoryAndName(Set<Long> categories, String name, Pageable pageable) {
-        return productRepository.searchByCategoryAndName(name,categories,pageable).map(productMapper::toDto);
+        return productRepository.searchByCategoryAndName(name, categories, pageable).map(productMapper::toDto);
     }
 
     /**
@@ -94,7 +119,10 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Optional<ProductDTO> findOne(Long id) {
         log.debug("Request to get Product : {}", id);
-        return productRepository.findById(id).map(productMapper::toDto);
+        Optional<ProductDTO> productDTO = productRepository.findById(id).map(productMapper::toDto);
+        productDTO.ifPresent(dto -> dto.setCategories(productCategoryService
+            .findByProductId(id).stream().map(ProductCategoryDTO::getCategory).collect(Collectors.toCollection(LinkedList::new))));
+        return productDTO;
     }
 
     /**
