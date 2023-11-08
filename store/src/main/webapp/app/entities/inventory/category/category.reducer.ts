@@ -79,7 +79,6 @@ export default (state: CategoryState = initialState, action): CategoryState => {
         ...state,
         loading: false,
         entities: action.payload.data,
-        categoriesSelected: action.payload.data.map(i => i['id']),
       };
     case SUCCESS(ACTION_TYPES.FETCH_CATEGORY):
       return {

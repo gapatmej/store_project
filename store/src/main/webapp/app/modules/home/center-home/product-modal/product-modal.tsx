@@ -7,8 +7,13 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
+import { addProduct } from 'app/entities/inventory/product/product.reducer';
 
 export const ProductModal = props => {
+  const handleAddProduct= ()=>{
+    props.addProduct(product);
+  }
+
   const { product } = props;
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -16,18 +21,15 @@ export const ProductModal = props => {
         <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Container>
-          <Row>
+        <Container >
+          <Row className='row'>
             <Col md={5}>
-              <Card.Img variant="top" src={`data:${product.imageContentType};base64,${product.image}`}  />
+              <Card.Img variant="top" height={"350"} src={`data:${product.imageContentType};base64,${product.image}`}  />
             </Col>
-            <Col md={7}>
-              <Row>
-                <h4>{product.name}</h4>
-              </Row>
-              <Row>
+            <Col md={7} >
+                <h1>{product.name}</h1>
                 <p>{product.description}</p>
-              </Row>
+                <h4>$ {product.price}</h4>
             </Col>
           </Row>
         </Container>
@@ -36,7 +38,7 @@ export const ProductModal = props => {
         <Button variant="secondary" onClick={props.onHide}>
           Cerrar
         </Button>
-        <Button variant="primary" onClick={props.onHide}>
+        <Button variant="primary" onClick={() => handleAddProduct()} >
           Agregar
         </Button>
       </Modal.Footer>
@@ -44,4 +46,11 @@ export const ProductModal = props => {
   );
 };
 
-export default connect()(ProductModal);
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = {
+  addProduct,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);

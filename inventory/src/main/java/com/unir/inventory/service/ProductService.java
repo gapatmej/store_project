@@ -1,7 +1,6 @@
 package com.unir.inventory.service;
 
 import com.unir.inventory.domain.Product;
-import com.unir.inventory.domain.ProductCategory;
 import com.unir.inventory.repository.ProductRepository;
 import com.unir.inventory.service.dto.CategoryDTO;
 import com.unir.inventory.service.dto.ProductCategoryDTO;
@@ -34,10 +33,13 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final ProductCategoryService productCategoryService;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper, ProductCategoryService productCategoryService) {
+    private final CategoryService categoryService;
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, ProductCategoryService productCategoryService, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.productCategoryService = productCategoryService;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -107,6 +109,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> searchByCategoryAndName(Set<Long> categories, String name, Pageable pageable) {
+        if(categories.isEmpty())
+            categories = categoryService.findAll().stream().map(CategoryDTO::getId).collect(Collectors.toSet());
         return productRepository.searchByCategoryAndName(name, categories, pageable).map(productMapper::toDto);
     }
 

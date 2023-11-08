@@ -22,13 +22,13 @@ export const ProductCard = props => {
     <>
       <ProductModal show={modalShow} onHide={() => setModalShow(false)} product={product} />
       <Col sm={4}>
-        <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src={`data:${product.imageContentType};base64,${product.image}`} />
+        <Card style={{ width: '18rem', marginBottom:'30px' }}>
+          <Card.Img variant="top" height={"300"} src={`data:${product.imageContentType};base64,${product.image}`} />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
           </Card.Body>
           <ListGroup className="list-group-flush">
-            <ListGroup.Item>{product.price}</ListGroup.Item>
+            <ListGroup.Item>$ {product.price}</ListGroup.Item>
           </ListGroup>
           <Card.Body>
             <Row>

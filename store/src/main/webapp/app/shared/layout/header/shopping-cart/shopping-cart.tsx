@@ -17,7 +17,7 @@ export const ShoopingCart = (props) => {
 
   return (
     <NavItem>
-      <NavLink tag={Link} to="/" >
+      <NavLink tag={Link} to="/order/pre-order" >
         <FontAwesomeIcon icon="shopping-cart" />
         <span>Cesta</span>
         <span>{getTotal(props.productsOnCart)}</span>

@@ -15,7 +15,8 @@ export const ACTION_TYPES = {
   DELETE_PRODUCT: 'product/DELETE_PRODUCT',
   SET_BLOB: 'product/SET_BLOB',
   RESET: 'product/RESET',
-  ADD_PRODUCT_CART: 'product/ADD_PRODUCT_CART'
+  ADD_PRODUCT_CART: 'product/ADD_PRODUCT_CART',
+  CHANGE_QUANTITY_PRODUCT_CART: 'product/CHANGE_QUANTITY_PRODUCT_CART'
 };
 
 const initialState = {
@@ -131,6 +132,21 @@ export default (state: ProductState = initialState, action): ProductState => {
         productsOnCart: [...productsOnCart],
       };
     }
+    case ACTION_TYPES.CHANGE_QUANTITY_PRODUCT_CART: {
+      const { productId, quantity } = action.payload;
+      const { productsOnCart } = state;
+
+      const foundElement = productsOnCart.find(p => p.id === productId);
+
+      if (foundElement) {
+        foundElement.quantity = quantity;
+      } 
+
+      return {
+        ...state,
+        productsOnCart: [...productsOnCart],
+      };
+    }
     default:
       return state;
   }
@@ -217,5 +233,13 @@ export const addProduct = (product) => ({
   type: ACTION_TYPES.ADD_PRODUCT_CART,
   payload: {
     product,
+  },
+});
+
+export const changeQuantityProductCart = (productId, quantity) => ({
+  type: ACTION_TYPES.CHANGE_QUANTITY_PRODUCT_CART,
+  payload: {
+    productId,
+    quantity
   },
 });

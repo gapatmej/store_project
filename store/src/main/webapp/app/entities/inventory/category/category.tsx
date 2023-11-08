@@ -90,9 +90,6 @@ export const Category = (props: ICategoryProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="storeApp.inventoryCategory.id">ID</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th className="hand" onClick={sort('name')}>
                   <Translate contentKey="storeApp.inventoryCategory.name">Name</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -104,13 +101,7 @@ export const Category = (props: ICategoryProps) => {
             </thead>
             <tbody>
               {categoryList.map((category, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`${match.url}/${category.id}`} color="link" size="sm">
-                      {category.id}
-                    </Button>
-                  </td>
-                  <td>{category.id}</td>
+                <tr key={`entity-${i}`} data-cy="entityTable">  
                   <td>{category.name}</td>
                   <td>{category.description}</td>
                   <td className="text-right">

@@ -16,7 +16,7 @@ import java.util.Set;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p JOIN FETCH ProductCategory pc on pc.product.id = p.id " +
+    @Query("SELECT distinct p FROM Product p LEFT JOIN ProductCategory pc on pc.product.id = p.id " +
         "WHERE pc.category.id IN :categories AND (p.name LIKE %:name%) ")
     Page<Product> searchByCategoryAndName(@Param("name")String name, @Param("categories") Set<Long> categories, Pageable pageable);
 }

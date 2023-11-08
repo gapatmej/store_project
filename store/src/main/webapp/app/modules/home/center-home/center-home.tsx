@@ -14,9 +14,8 @@ export const CenterHome = (props: ICenterHomeProp) => {
     const page = 0;
     const size = 0;
     const sort = false;
-    if (props.categoriesSelected.length > 0) {
-      props.getPublicEntities(props.categoriesSelected, name, page, size, sort);
-    }
+
+    props.getPublicEntities(props.categoriesSelected, name, page, size, sort);
   };
 
   useEffect(() => {
