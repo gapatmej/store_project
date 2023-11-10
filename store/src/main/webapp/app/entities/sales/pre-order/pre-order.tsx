@@ -3,10 +3,11 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import { Button, Col, InputGroup, Row } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { changeQuantityProductCart } from 'app/entities/inventory/product/product.reducer';
+import { changeQuantityProductCart, deleteProduct } from 'app/entities/inventory/product/product.reducer';
 import { Card, Container } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IOrderProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
@@ -55,10 +56,15 @@ export const PreOrder = (props) => {
                   <Col md={8} >
                     <h4>{product.name}</h4>
                     <p>{product.description}</p>
-                    <AvForm>
-                      <AvField className="quantity" name="quantity" label="Cantidad" type="number" onChange={(event) => handleChangeQuantity(event, product)}
-                        min="1" value={product.quantity} />
-                    </AvForm>
+                    <InputGroup>
+                      <AvForm>
+                        <AvField className="quantity" name="quantity" label="Cantidad" type="number" onChange={(event) => handleChangeQuantity(event, product)}
+                          min="1" value={product.quantity} />
+                      </AvForm>
+                      <div className='form-group delete-icon'>
+                        <FontAwesomeIcon icon="trash" size='lg' onClick={()=>props.deleteProduct(product)} />
+                      </div>
+                    </InputGroup>
                   </Col>
                   <Col md={2} >
                     <h4>$ {product.price}</h4>
@@ -94,6 +100,7 @@ const mapStateToProps = storeState => ({
 
 const mapDispatchToProps = {
   changeQuantityProductCart,
+  deleteProduct
 };
 
 

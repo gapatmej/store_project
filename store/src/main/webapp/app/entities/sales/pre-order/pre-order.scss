@@ -10,3 +10,12 @@
     padding-left: 150px;
     padding-right: 150px;
 }
+
+.delete-icon{
+    align-self: end;
+    margin-left: 20px;
+}
+
+.delete-icon:hover {
+    cursor: pointer;
+}

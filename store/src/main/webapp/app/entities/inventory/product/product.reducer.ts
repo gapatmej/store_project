@@ -16,6 +16,7 @@ export const ACTION_TYPES = {
   SET_BLOB: 'product/SET_BLOB',
   RESET: 'product/RESET',
   ADD_PRODUCT_CART: 'product/ADD_PRODUCT_CART',
+  DELETE_PRODUCT_CART: 'product/DELETE_PRODUCT_CART',
   CHANGE_QUANTITY_PRODUCT_CART: 'product/CHANGE_QUANTITY_PRODUCT_CART'
 };
 
@@ -132,6 +133,14 @@ export default (state: ProductState = initialState, action): ProductState => {
         productsOnCart: [...productsOnCart],
       };
     }
+    case ACTION_TYPES.DELETE_PRODUCT_CART: {
+      const { product } = action.payload;
+      const { productsOnCart } = state;
+      return {
+        ...state,
+        productsOnCart: productsOnCart.filter(item => item.id !== product.id),
+      };
+    }
     case ACTION_TYPES.CHANGE_QUANTITY_PRODUCT_CART: {
       const { productId, quantity } = action.payload;
       const { productsOnCart } = state;
@@ -241,5 +250,12 @@ export const changeQuantityProductCart = (productId, quantity) => ({
   payload: {
     productId,
     quantity
+  },
+});
+
+export const deleteProduct = (product) => ({
+  type: ACTION_TYPES.DELETE_PRODUCT_CART,
+  payload: {
+    product,
   },
 });
