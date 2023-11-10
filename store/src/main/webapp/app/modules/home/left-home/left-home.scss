@@ -1,8 +1,6 @@
 .panel-container {
   padding-top: 20px;
-  padding-bottom: 20px;
   border-top: 0.15em solid rgba(53, 61, 71, 0.51);
-  border-bottom: 0.15em solid rgba(53, 61, 71, 0.51);
 }
 
 h2 {
@@ -23,4 +21,10 @@ h2 {
 
 .op-checkbox{
   transform: scale(1.5);
+}
+
+.line{
+  margin-bottom: 30px;
+  margin-top: 30px;
+  border-bottom: 0.15em solid rgba(53, 61, 71, 0.51);
 }
