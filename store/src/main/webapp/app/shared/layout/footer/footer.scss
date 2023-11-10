@@ -11,8 +11,13 @@
   margin-top: 100px;
 }
 
-a {
+.link-span {
   color: white !important;
+  font-weight: normal;
+}
+
+.list-unstyled a{
+  max-width: fit-content;
 }
 
 h3 {

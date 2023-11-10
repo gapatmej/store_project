@@ -22,7 +22,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Nuestra empresa
                     </span>
                   </NavLink>
@@ -31,7 +31,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Gastos de envío
                     </span>
                   </NavLink>
@@ -40,7 +40,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Descuentos
                     </span>
                   </NavLink>
@@ -49,7 +49,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Contacto
                     </span>
                   </NavLink>
@@ -62,7 +62,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Información personal
                     </span>
                   </NavLink>
@@ -71,7 +71,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Pedidos
                     </span>
                   </NavLink>
@@ -80,7 +80,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Mis alertas
                     </span>
                   </NavLink>
@@ -89,7 +89,7 @@ const Footer = () => (
               <li>
                 <NavItem>
                   <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                    <span>
+                    <span className='link-span'>
                       Direcciones
                     </span>
                   </NavLink>
