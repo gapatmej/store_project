@@ -11,9 +11,6 @@ export const EntitiesMenu = props => (
     data-cy="entity"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="asterisk" to="/order-item">
-      <Translate contentKey="global.menu.entities.salesOrderItem" />
-    </MenuItem>
     <MenuItem icon="asterisk" to="/customer">
       <Translate contentKey="global.menu.entities.customer" />
     </MenuItem>

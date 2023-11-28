@@ -13,9 +13,6 @@ import password, { PasswordState } from 'app/modules/account/password/password.r
 import settings, { SettingsState } from 'app/modules/account/settings/settings.reducer';
 import passwordReset, { PasswordResetState } from 'app/modules/account/password-reset/password-reset.reducer';
 // prettier-ignore
-import orderItem, {
-  OrderItemState
-} from 'app/entities/sales/order-item/order-item.reducer';
 // prettier-ignore
 import customer, {
   CustomerState
@@ -49,7 +46,6 @@ export interface IRootState {
   readonly passwordReset: PasswordResetState;
   readonly password: PasswordState;
   readonly settings: SettingsState;
-  readonly orderItem: OrderItemState;
   readonly customer: CustomerState;
   readonly order: OrderState;
   readonly product: ProductState;
@@ -70,7 +66,6 @@ const rootReducer = combineReducers<IRootState>({
   passwordReset,
   password,
   settings,
-  orderItem,
   customer,
   order,
   product,

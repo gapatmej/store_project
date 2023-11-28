@@ -12,7 +12,7 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
-export interface IOrderProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IOrderProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
 export const Order = (props: IOrderProps) => {
   const [paginationState, setPaginationState] = useState(
@@ -90,14 +90,11 @@ export const Order = (props: IOrderProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="storeApp.salesOrder.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('customerId')}>
+                  <Translate contentKey="storeApp.salesOrder.customerId">Customer Id</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('customerName')}>
                   <Translate contentKey="storeApp.salesOrder.customerName">Customer Name</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('customerId')}>
-                  <Translate contentKey="storeApp.salesOrder.customerId">Customer Id</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('placedDate')}>
                   <Translate contentKey="storeApp.salesOrder.placedDate">Placed Date</Translate> <FontAwesomeIcon icon="sort" />
@@ -114,14 +111,8 @@ export const Order = (props: IOrderProps) => {
             <tbody>
               {orderList.map((order, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`${match.url}/${order.id}`} color="link" size="sm">
-                      {order.id}
-                    </Button>
-                  </td>
-                  <td>{order.id}</td>
-                  <td>{order.customerName}</td>
                   <td>{order.customerId}</td>
+                  <td>{order.customerName}</td>
                   <td>{order.placedDate ? <TextFormat type="date" value={order.placedDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>
                     <Translate contentKey={`storeApp.OrderStatus.${order.status}`} />
