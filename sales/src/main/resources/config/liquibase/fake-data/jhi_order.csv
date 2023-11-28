@@ -1,11 +1,11 @@
-id;customer_name;customer_id;placed_date;status;code
-1;política reboot;66933;2023-10-06T13:15:08;CANCELLED;Peso a
-2;connect Gran online;61547;2023-10-06T02:23:25;COMPLETED;HDD
-3;Música Investment synergize;89808;2023-10-06T03:53:36;CANCELLED;Municipio Bloque
-4;Madera Murcia Eritrea;7374;2023-10-06T20:43:51;CANCELLED;Algodón Verde Respuesta
-5;SDD Escalinata;26257;2023-10-06T17:05:46;COMPLETED;Barranco
-6;proactive Práctico impactful;73672;2023-10-06T20:33:33;CANCELLED;Jefe RSS channels
-7;Mobilidad Hryvnia;1194;2023-10-06T17:26:32;CANCELLED;interfaces
-8;Comunicaciones ejecutiva;46960;2023-10-06T15:04:20;CANCELLED;Cambridgeshire invoice bypassing
-9;Avenida;28712;2023-10-06T04:02:16;CANCELLED;ADP móbil
-10;hacking;85591;2023-10-06T17:45:27;CANCELLED;Sabroso
+id;customer_name;customer_id;placed_date;status;code;total
+1;política reboot;66933;2023-10-06T13:15:08;CANCELLED;Peso a;10
+2;connect Gran online;61547;2023-10-06T02:23:25;COMPLETED;HDD;11.20
+3;Música Investment synergize;89808;2023-10-06T03:53:36;CANCELLED;Municipio Bloque;10.61
+4;Madera Murcia Eritrea;7374;2023-10-06T20:43:51;CANCELLED;Algodón Verde Respuesta;9.99
+5;SDD Escalinata;26257;2023-10-06T17:05:46;COMPLETED;Barranco;9.87
+6;proactive Práctico impactful;73672;2023-10-06T20:33:33;CANCELLED;Jefe RSS channels;100.56
+7;Mobilidad Hryvnia;1194;2023-10-06T17:26:32;CANCELLED;interfaces;150.96
+8;Comunicaciones ejecutiva;46960;2023-10-06T15:04:20;CANCELLED;Cambridgeshire invoice bypassing;45.66
+9;Avenida;28712;2023-10-06T04:02:16;CANCELLED;ADP móbil;65.64
+10;hacking;85591;2023-10-06T17:45:27;CANCELLED;Sabroso;49.40

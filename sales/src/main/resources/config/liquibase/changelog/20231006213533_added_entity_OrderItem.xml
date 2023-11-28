@@ -14,13 +14,16 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <column name="description" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="quantity" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="price_per_item" type="integer">
+            <column name="price_per_item" type="decimal(21,2)">
                 <constraints nullable="false" />
             </column>
             <column name="total_price" type="decimal(21,2)">
@@ -49,6 +52,7 @@
                   separator=";"
                   tableName="order_item">
             <column name="id" type="numeric"/>
+            <column name="product_id" type="numeric"/>
             <column name="description" type="string"/>
             <column name="quantity" type="numeric"/>
             <column name="price_per_item" type="numeric"/>

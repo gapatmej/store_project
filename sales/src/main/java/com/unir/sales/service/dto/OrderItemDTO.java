@@ -13,21 +13,21 @@ public class OrderItemDTO implements Serializable {
     private Long id;
 
     @NotNull
+    private Long productId;
+
     private String description;
 
     @NotNull
     @Min(value = 0)
     private Integer quantity;
 
-    @NotNull
     @Min(value = 0)
-    private Integer pricePerItem;
+    private BigDecimal pricePerItem;
 
-    @NotNull
     @DecimalMin(value = "0")
     private BigDecimal totalPrice;
 
-    private OrderDTO order;
+    private Long orderId;
 
     public Long getId() {
         return id;
@@ -35,6 +35,14 @@ public class OrderItemDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getDescription() {
@@ -53,11 +61,11 @@ public class OrderItemDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getPricePerItem() {
+    public BigDecimal getPricePerItem() {
         return pricePerItem;
     }
 
-    public void setPricePerItem(Integer pricePerItem) {
+    public void setPricePerItem(BigDecimal pricePerItem) {
         this.pricePerItem = pricePerItem;
     }
 
@@ -69,12 +77,12 @@ public class OrderItemDTO implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public OrderDTO getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(OrderDTO order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     @Override
@@ -107,7 +115,6 @@ public class OrderItemDTO implements Serializable {
             ", quantity=" + getQuantity() +
             ", pricePerItem=" + getPricePerItem() +
             ", totalPrice=" + getTotalPrice() +
-            ", order=" + getOrder() +
             "}";
     }
 }

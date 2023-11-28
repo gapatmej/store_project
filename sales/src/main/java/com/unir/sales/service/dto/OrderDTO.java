@@ -2,7 +2,9 @@ package com.unir.sales.service.dto;
 
 import com.unir.sales.domain.enumeration.OrderStatus;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -13,20 +15,20 @@ public class OrderDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String customerName;
 
     @NotNull
     private Long customerId;
 
-    @NotNull
     private Instant placedDate;
 
-    @NotNull
     private OrderStatus status;
 
-    @NotNull
     private String code;
+
+    private BigDecimal total;
+
+    private List<OrderItemDTO> orderItems;
 
     public Long getId() {
         return id;
@@ -74,6 +76,22 @@ public class OrderDTO implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public List<OrderItemDTO> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItemDTO> orderItems) {
+        this.orderItems = orderItems;
     }
 
     @Override

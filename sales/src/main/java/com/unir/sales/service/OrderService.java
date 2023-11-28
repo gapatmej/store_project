@@ -1,10 +1,22 @@
 package com.unir.sales.service;
 
 import com.unir.sales.domain.Order;
+import com.unir.sales.domain.enumeration.OrderStatus;
 import com.unir.sales.repository.OrderRepository;
+import com.unir.sales.service.client.ProductService;
 import com.unir.sales.service.dto.OrderDTO;
+import com.unir.sales.service.dto.OrderItemDTO;
+import com.unir.sales.service.dto.ProductDTO;
 import com.unir.sales.service.mapper.OrderMapper;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.unir.sales.web.rest.errors.BadRequestAlertException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,9 +37,14 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper) {
+    private final ProductService productService;
+    private final OrderItemService orderItemService;
+
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, ProductService productService, OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.productService = productService;
+        this.orderItemService = orderItemService;
     }
 
     /**
@@ -38,9 +55,33 @@ public class OrderService {
      */
     public OrderDTO save(OrderDTO orderDTO) {
         log.debug("Request to save Order : {}", orderDTO);
+        List<ProductDTO> products = productService.validateStock(orderDTO.getOrderItems().stream().collect(Collectors.toMap(OrderItemDTO::getProductId,OrderItemDTO::getQuantity)));
+
+        ProductDTO productDTO = products.stream().filter(p->p.getMessageValidation() != null).findFirst().orElse(null);
+        if(productDTO != null){
+            throw new BadRequestAlertException(productDTO.getMessageValidation(), "", "idexists");
+        }
+
+        addDataToDetail(orderDTO,products);
         Order order = orderMapper.toEntity(orderDTO);
+        order.setPlacedDate(Instant.now());
+        order.setStatus(OrderStatus.COMPLETED);
+        order.setCode(DigestUtils.md5Hex(String.valueOf(System.currentTimeMillis())));
         order = orderRepository.save(order);
-        return orderMapper.toDto(order);
+
+        OrderDTO result = orderMapper.toDto(order);
+        result.setOrderItems(orderItemService.save(orderDTO.getOrderItems(),order.getId()));
+        return result;
+    }
+
+    private void addDataToDetail(OrderDTO orderDTO, List<ProductDTO> products){
+        for (OrderItemDTO oI: orderDTO.getOrderItems()) {
+            ProductDTO product = products.stream().filter(p->p.getId().equals(oI.getProductId())).findFirst().orElse(null);
+            oI.setDescription(product.getName());
+            oI.setPricePerItem(product.getPrice());
+            oI.setTotalPrice(product.getPrice().multiply(new BigDecimal(oI.getQuantity())));
+        }
+        orderDTO.setTotal(orderDTO.getOrderItems().stream().map(OrderItemDTO::getTotalPrice).reduce(BigDecimal.ZERO,BigDecimal::add));
     }
 
     /**

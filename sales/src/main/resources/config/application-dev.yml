@@ -122,3 +122,6 @@ jhipster:
 # ===================================================================
 
 # application:
+client:
+  ribbon:
+    listOfServers: localhost:8080

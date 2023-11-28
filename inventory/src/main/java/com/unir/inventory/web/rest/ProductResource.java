@@ -21,10 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * REST controller for managing {@link com.unir.inventory.domain.Product}.
@@ -186,5 +183,10 @@ public class ProductResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/products/validate-stock")
+    public List<ProductDTO> validateStock(@RequestBody Map<Long, Integer> productList) {
+        return productService.validateStock(productList);
     }
 }

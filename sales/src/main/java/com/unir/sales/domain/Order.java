@@ -3,6 +3,7 @@ package com.unir.sales.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unir.sales.domain.enumeration.OrderStatus;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,6 +47,10 @@ public class Order implements Serializable {
     @NotNull
     @Column(name = "code", nullable = false)
     private String code;
+
+    @DecimalMin(value = "0")
+    @Column(name = "total", precision = 21, scale = 2, nullable = false)
+    private BigDecimal total;
 
     @OneToMany(mappedBy = "order")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -132,34 +137,19 @@ public class Order implements Serializable {
     }
 
     public Set<OrderItem> getOrderItems() {
-        return this.orderItems;
-    }
-
-    public Order orderItems(Set<OrderItem> orderItems) {
-        this.setOrderItems(orderItems);
-        return this;
-    }
-
-    public Order addOrderItems(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
-        orderItem.setOrder(this);
-        return this;
-    }
-
-    public Order removeOrderItems(OrderItem orderItem) {
-        this.orderItems.remove(orderItem);
-        orderItem.setOrder(null);
-        return this;
+        return orderItems;
     }
 
     public void setOrderItems(Set<OrderItem> orderItems) {
-        if (this.orderItems != null) {
-            this.orderItems.forEach(i -> i.setOrder(null));
-        }
-        if (orderItems != null) {
-            orderItems.forEach(i -> i.setOrder(this));
-        }
         this.orderItems = orderItems;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

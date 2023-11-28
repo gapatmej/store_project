@@ -1,17 +1,15 @@
-package com.unir.inventory.service.dto;
+package com.unir.sales.service.dto;
 
 import io.swagger.annotations.ApiModel;
+
+import javax.persistence.Lob;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Lob;
-import javax.validation.constraints.*;
 
-/**
- * A DTO for the {@link com.unir.inventory.domain.Product} entity.
- */
-@ApiModel(description = "Entities for inventory microservice")
 public class ProductDTO implements Serializable {
 
     private Long id;
@@ -34,8 +32,6 @@ public class ProductDTO implements Serializable {
     private String messageValidation;
 
     private String imageContentType;
-
-    private List<CategoryDTO> categories;
 
     public Long getId() {
         return id;
@@ -91,14 +87,6 @@ public class ProductDTO implements Serializable {
 
     public void setImageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
-    }
-
-    public List<CategoryDTO> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoryDTO> categories) {
-        this.categories = categories;
     }
 
     public String getMessageValidation() {

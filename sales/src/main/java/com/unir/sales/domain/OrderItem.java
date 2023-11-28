@@ -24,6 +24,10 @@ public class OrderItem implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @NotNull
     @Column(name = "description", nullable = false)
     private String description;
 
@@ -32,12 +36,10 @@ public class OrderItem implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @NotNull
     @Min(value = 0)
-    @Column(name = "price_per_item", nullable = false)
-    private Integer pricePerItem;
+    @Column(name = "price_per_item", precision = 21, scale = 2, nullable = false)
+    private BigDecimal pricePerItem;
 
-    @NotNull
     @DecimalMin(value = "0")
     @Column(name = "total_price", precision = 21, scale = 2, nullable = false)
     private BigDecimal totalPrice;
@@ -58,6 +60,14 @@ public class OrderItem implements Serializable {
     public OrderItem id(Long id) {
         this.id = id;
         return this;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getDescription() {
@@ -86,16 +96,16 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getPricePerItem() {
+    public BigDecimal getPricePerItem() {
         return this.pricePerItem;
     }
 
-    public OrderItem pricePerItem(Integer pricePerItem) {
+    public OrderItem pricePerItem(BigDecimal pricePerItem) {
         this.pricePerItem = pricePerItem;
         return this;
     }
 
-    public void setPricePerItem(Integer pricePerItem) {
+    public void setPricePerItem(BigDecimal pricePerItem) {
         this.pricePerItem = pricePerItem;
     }
 
@@ -113,12 +123,7 @@ public class OrderItem implements Serializable {
     }
 
     public Order getOrder() {
-        return this.order;
-    }
-
-    public OrderItem order(Order order) {
-        this.setOrder(order);
-        return this;
+        return order;
     }
 
     public void setOrder(Order order) {

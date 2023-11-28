@@ -29,6 +29,9 @@
             <column name="code" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="total" type="decimal(21,2)">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="jhi_order" columnName="placed_date" columnDataType="${datetimeType}"/>

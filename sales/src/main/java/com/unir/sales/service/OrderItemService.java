@@ -4,10 +4,13 @@ import com.unir.sales.domain.OrderItem;
 import com.unir.sales.repository.OrderItemRepository;
 import com.unir.sales.service.dto.OrderItemDTO;
 import com.unir.sales.service.mapper.OrderItemMapper;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,16 @@ public class OrderItemService {
         orderItem = orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
     }
+
+    public List<OrderItemDTO> save(List<OrderItemDTO> orderItemDTOS, Long orderId) {
+        List<OrderItemDTO> result = new ArrayList<>();
+        orderItemDTOS.forEach(oI -> {
+            oI.setOrderId(orderId);
+            result.add(save(oI));
+        });
+        return result;
+    }
+
 
     /**
      * Partially update a orderItem.
