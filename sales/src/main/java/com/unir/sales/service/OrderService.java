@@ -4,6 +4,8 @@ import com.unir.sales.domain.Order;
 import com.unir.sales.domain.enumeration.OrderStatus;
 import com.unir.sales.repository.OrderRepository;
 import com.unir.sales.service.client.ProductService;
+import com.unir.sales.service.client.UserService;
+import com.unir.sales.service.dto.AdminUserDTO;
 import com.unir.sales.service.dto.OrderDTO;
 import com.unir.sales.service.dto.OrderItemDTO;
 import com.unir.sales.service.dto.ProductDTO;
@@ -39,12 +41,14 @@ public class OrderService {
 
     private final ProductService productService;
     private final OrderItemService orderItemService;
+    private final UserService userService;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, ProductService productService, OrderItemService orderItemService) {
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, ProductService productService, OrderItemService orderItemService, UserService userService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.productService = productService;
         this.orderItemService = orderItemService;
+        this.userService = userService;
     }
 
     /**
@@ -67,6 +71,10 @@ public class OrderService {
         order.setPlacedDate(Instant.now());
         order.setStatus(OrderStatus.COMPLETED);
         order.setCode(DigestUtils.md5Hex(String.valueOf(System.currentTimeMillis())));
+
+        AdminUserDTO adminUserDTO = userService.getAccount();
+        order.setCustomerId(adminUserDTO.getLogin());
+        order.setCustomerName(String.format("%s %s",adminUserDTO.getFirstName(),adminUserDTO.getLastName()));
         order = orderRepository.save(order);
 
         OrderDTO result = orderMapper.toDto(order);

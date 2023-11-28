@@ -17,7 +17,7 @@
             <column name="customer_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="customer_id" type="bigint">
+            <column name="customer_id" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
             <column name="placed_date" type="${datetimeType}">

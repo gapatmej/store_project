@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.unir.sales.domain.Order} entity.
@@ -14,20 +13,12 @@ import javax.validation.constraints.*;
 public class OrderDTO implements Serializable {
 
     private Long id;
-
     private String customerName;
-
-    @NotNull
-    private Long customerId;
-
+    private String customerId;
     private Instant placedDate;
-
     private OrderStatus status;
-
     private String code;
-
     private BigDecimal total;
-
     private List<OrderItemDTO> orderItems;
 
     public Long getId() {
@@ -46,11 +37,11 @@ public class OrderDTO implements Serializable {
         this.customerName = customerName;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 

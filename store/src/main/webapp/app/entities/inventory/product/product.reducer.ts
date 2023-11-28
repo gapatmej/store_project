@@ -17,7 +17,8 @@ export const ACTION_TYPES = {
   RESET: 'product/RESET',
   ADD_PRODUCT_CART: 'product/ADD_PRODUCT_CART',
   DELETE_PRODUCT_CART: 'product/DELETE_PRODUCT_CART',
-  CHANGE_QUANTITY_PRODUCT_CART: 'product/CHANGE_QUANTITY_PRODUCT_CART'
+  CHANGE_QUANTITY_PRODUCT_CART: 'product/CHANGE_QUANTITY_PRODUCT_CART',
+  CLEAN_CART: 'product/CLEAN_CART'
 };
 
 const initialState = {
@@ -149,13 +150,18 @@ export default (state: ProductState = initialState, action): ProductState => {
 
       if (foundElement) {
         foundElement.quantity = quantity;
-      } 
+      }
 
       return {
         ...state,
         productsOnCart: [...productsOnCart],
       };
     }
+    case ACTION_TYPES.CLEAN_CART:
+      return {
+        ...state,
+        productsOnCart:[]
+      };
     default:
       return state;
   }
@@ -258,4 +264,8 @@ export const deleteProduct = (product) => ({
   payload: {
     product,
   },
+});
+
+export const cleanShoppingCar = () => ({
+  type: ACTION_TYPES.CLEAN_CART,
 });

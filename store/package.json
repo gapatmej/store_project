@@ -73,6 +73,7 @@
     "availity-reactstrap-validation": "2.7.0",
     "axios": "0.21.1",
     "bootstrap": "^4.6.0",
+    "date-fns": "^2.30.0",
     "dayjs": "1.10.4",
     "loaders.css": "0.1.2",
     "lodash": "4.17.21",

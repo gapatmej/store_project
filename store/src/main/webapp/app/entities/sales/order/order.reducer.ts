@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
-
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import { cleanShoppingCar } from 'app/entities/inventory/product/product.reducer';
 
 import { IOrder, defaultValue } from 'app/shared/model/sales/order.model';
 
@@ -127,6 +127,15 @@ export const createEntity: ICrudPutAction<IOrder> = entity => async dispatch => 
     payload: axios.post(apiUrl, cleanEntity(entity)),
   });
   dispatch(getEntities());
+  return result;
+};
+
+export const createPreEntity: ICrudPutAction<IOrder> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.CREATE_ORDER,
+    payload: axios.post(apiUrl, cleanEntity(entity)),
+  });
+  dispatch(cleanShoppingCar());
   return result;
 };
 

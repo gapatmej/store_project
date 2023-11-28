@@ -33,7 +33,7 @@ public class Order implements Serializable {
 
     @NotNull
     @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @NotNull
     @Column(name = "placed_date", nullable = false)
@@ -84,16 +84,16 @@ public class Order implements Serializable {
         this.customerName = customerName;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return this.customerId;
     }
 
-    public Order customerId(Long customerId) {
+    public Order customerId(String customerId) {
         this.customerId = customerId;
         return this;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
