@@ -8,7 +8,7 @@ import PasswordStrengthBar from 'app/shared/layout/password/password-strength-ba
 import { IRootState } from 'app/shared/reducers';
 import { handleRegister, reset } from './register.reducer';
 
-export interface IRegisterProps extends StateProps, DispatchProps {}
+export interface IRegisterProps extends StateProps, DispatchProps { }
 
 export const RegisterPage = (props: IRegisterProps) => {
   const [password, setPassword] = useState('');
@@ -21,7 +21,9 @@ export const RegisterPage = (props: IRegisterProps) => {
   );
 
   const handleValidSubmit = (event, values) => {
-    props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
+    const { username, firstName, lastName, email, firstPassword } = values;
+    console.log("handleValidSubmit", values);
+    props.handleRegister(username, firstName, lastName, email, firstPassword, props.currentLocale);
     event.preventDefault();
   };
 
@@ -54,6 +56,30 @@ export const RegisterPage = (props: IRegisterProps) => {
               }}
               data-cy="username"
             />
+            <Row>
+              <Col md="6">
+                <AvField
+                  name="firstName"
+                  label="Nombres"
+                  placeholder="Nombres"
+                  validate={{
+                    required: { value: true, errorMessage: "Nombres requeridos" },
+                    maxLength: { value: 255, errorMessage: "La longitud máxima es de 255" },
+                  }}
+                />
+              </Col>
+              <Col md="6">
+                <AvField
+                  name="lastName"
+                  label="Apellidos"
+                  placeholder="Apellidos"
+                  validate={{
+                    required: { value: true, errorMessage: "Apellidos requeridos" },
+                    maxLength: { value: 255, errorMessage: "La longitud máxima es de 255" },
+                  }}
+                />
+              </Col>
+            </Row>
             <AvField
               name="email"
               label={translate('global.form.email.label')}
@@ -97,22 +123,6 @@ export const RegisterPage = (props: IRegisterProps) => {
               <Translate contentKey="register.form.button">Register</Translate>
             </Button>
           </AvForm>
-          <p>&nbsp;</p>
-          <Alert color="warning">
-            <span>
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-            </span>
-            <a className="alert-link">
-              <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
-            </a>
-            <span>
-              <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-              </Translate>
-            </span>
-          </Alert>
         </Col>
       </Row>
     </div>
