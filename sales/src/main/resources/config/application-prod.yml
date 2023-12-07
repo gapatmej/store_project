@@ -24,7 +24,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+      defaultZone: http://admin:${jhipster.registry.password}@host.docker.internal:8761/eureka/
 
 management:
   metrics:
@@ -52,9 +52,9 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/sales
-    username: sales
-    password:
+    url: jdbc:postgresql://host.docker.internal:5432/sales
+    username: postgres
+    password: postgres
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -147,3 +147,6 @@ jhipster:
 # ===================================================================
 
 # application:
+client:
+  ribbon:
+    listOfServers: host.docker.internal:8080

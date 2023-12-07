@@ -24,7 +24,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+      defaultZone: http://admin:${jhipster.registry.password}@host.docker.internal:8761/eureka/
 
 management:
   metrics:
@@ -53,7 +53,7 @@ spring:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
-    url: jdbc:postgresql://localhost:5432/store
+    url: jdbc:postgresql://host.docker.internal:5432/store
   mail:
     host: smtp.gmail.com
     port: 587
@@ -65,9 +65,9 @@ spring:
       auth: true
       starttls.enable: true
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/store
-    username: store
-    password:
+    url: r2dbc:postgresql://host.docker.internal:5432/store
+    username: postgres
+    password: postgres
   thymeleaf:
     cache: true
   sleuth:
