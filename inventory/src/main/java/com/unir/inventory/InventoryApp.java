@@ -1,5 +1,6 @@
 package com.unir.inventory;
 
+import com.netflix.appinfo.AmazonInfo;
 import com.unir.inventory.config.ApplicationProperties;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,6 +15,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.commons.util.InetUtils;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
@@ -68,6 +72,29 @@ public class InventoryApp {
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);
+    }
+
+    @Bean
+    public EurekaInstanceConfigBean eurekaInstanceConfig(InetUtils inetUtils){
+
+        EurekaInstanceConfigBean config = new EurekaInstanceConfigBean(inetUtils);
+        String ip = null;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        config.setIpAddress(ip);
+        config.setPreferIpAddress(true);
+        config.setNonSecurePort(getPortNumber());
+
+        return config;
+    }
+
+    private int getPortNumber(){
+        return env.getProperty("server.port", Integer.class);
     }
 
     private static void logApplicationStartup(Environment env) {

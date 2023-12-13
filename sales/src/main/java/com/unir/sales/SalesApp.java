@@ -14,6 +14,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.commons.util.InetUtils;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
@@ -56,6 +59,29 @@ public class SalesApp {
                 "You have misconfigured your application! It should not " + "run with both the 'dev' and 'cloud' profiles at the same time."
             );
         }
+    }
+
+    @Bean
+    public EurekaInstanceConfigBean eurekaInstanceConfig(InetUtils inetUtils){
+
+        EurekaInstanceConfigBean config = new EurekaInstanceConfigBean(inetUtils);
+        String ip = null;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        config.setIpAddress(ip);
+        config.setPreferIpAddress(true);
+        config.setNonSecurePort(getPortNumber());
+
+        return config;
+    }
+
+    private int getPortNumber(){
+        return env.getProperty("server.port", Integer.class);
     }
 
     /**
